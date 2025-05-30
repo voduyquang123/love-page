@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>I Love You</title>
+    <style>
+      body {
+        margin: 0;
+        background: black;
+        overflow: hidden;
+      }
+
+      .love {
+        position: absolute;
+        color: white;
+        font-family: "Arial", sans-serif;
+        text-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 40px #ff99cc,
+          0 0 60px #ff66cc;
+        animation: float 15s linear infinite;
+        opacity: 1;
+        white-space: nowrap;
+        padding: 10px 20px;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translate(0, 0);
+        }
+        50% {
+          transform: translate(80px, 80px);
+        }
+        100% {
+          transform: translate(-80px, -80px);
+        }
+      }
+
+      .heart {
+        position: absolute;
+        top: -50px;
+        color: pink;
+        font-size: 20px;
+        animation: fall linear infinite;
+        opacity: 0.8;
+        pointer-events: none;
+      }
+
+      @keyframes fall {
+        to {
+          transform: translateY(110vh);
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Nhạc nền -->
+    <audio autoplay loop>
+      <source
+        src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_6a1a6e3b07.mp3"
+        type="audio/mp3"
+      />
+      Trình duyệt của bạn không hỗ trợ audio.
+    </audio>
+
+    <!-- Chữ "I love you ❤️" -->
+    <script>
+      const numTexts = 15;
+      for (let i = 0; i < numTexts; i++) {
+        const love = document.createElement("div");
+        love.classList.add("love");
+        love.textContent = "I love you ❤️";
+        const top = Math.floor(i / 4) * 20 + Math.random() * 10;
+        const left = (i % 4) * 25 + Math.random() * 10;
+        love.style.top = top + "vh";
+        love.style.left = left + "vw";
+        love.style.animationDuration = 10 + Math.random() * 5 + "s";
+        love.style.fontSize = 50 + Math.random() * 20 + "px";
+        document.body.appendChild(love);
+      }
+    </script>
+
+    <!-- Trái tim rơi -->
+    <script>
+      function createFallingHeart() {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.textContent = "❤️";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = 10 + Math.random() * 20 + "px";
+        heart.style.animationDuration = 3 + Math.random() * 2 + "s";
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+          heart.remove();
+        }, 5000);
+      }
+
+      setInterval(createFallingHeart, 200); // tạo mỗi 0.2 giây
+    </script>
+  </body>
+</html>
