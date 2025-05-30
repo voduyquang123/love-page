@@ -2,100 +2,132 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>I Love You</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>I LOVE YOU</title>
     <style>
       body {
         margin: 0;
         background: black;
         overflow: hidden;
-      }
-
-      .love {
-        position: absolute;
-        color: white;
         font-family: "Arial", sans-serif;
-        text-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 40px #ff99cc,
-          0 0 60px #ff66cc;
-        animation: float 15s linear infinite;
-        opacity: 1;
-        white-space: nowrap;
-        padding: 10px 20px;
+        color: white;
       }
 
-      @keyframes float {
+      /* Container chứa chữ */
+      #text-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        pointer-events: none;
+        overflow: hidden;
+        z-index: 10;
+      }
+
+      /* Các chữ */
+      .text-item {
+        position: absolute;
+        font-size: 48px; /* chữ to hơn */
+        color: white;
+        text-shadow: 0 0 6px #fff, 0 0 12px #f0f, 0 0 18px #f0f;
+        animation: moveAround 10s linear infinite;
+        white-space: nowrap;
+        user-select: none;
+      }
+
+      @keyframes moveAround {
         0% {
           transform: translate(0, 0);
+          opacity: 1;
         }
         50% {
-          transform: translate(80px, 80px);
+          transform: translate(20px, 20px);
+          opacity: 0.8;
         }
         100% {
-          transform: translate(-80px, -80px);
+          transform: translate(0, 0);
+          opacity: 1;
         }
       }
 
+      /* Trái tim rơi */
       .heart {
-        position: absolute;
-        top: -50px;
-        color: pink;
-        font-size: 20px;
-        animation: fall linear infinite;
-        opacity: 0.8;
-        pointer-events: none;
+        position: fixed;
+        color: #fff;
+        font-size: 36px;
+        filter: drop-shadow(0 0 5px #ff69b4);
+        animation: fall 7s linear infinite;
+        user-select: none;
+        z-index: 20;
       }
 
       @keyframes fall {
-        to {
-          transform: translateY(110vh);
+        0% {
+          transform: translateY(-100px) translateX(0);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(100vh) translateX(50px);
           opacity: 0;
         }
       }
     </style>
   </head>
   <body>
-    <!-- Nhạc nền -->
+    <div id="text-container"></div>
+
     <audio autoplay loop>
       <source
-        src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_6a1a6e3b07.mp3"
-        type="audio/mp3"
+        src="https://cdn.pixabay.com/download/audio/2022/08/03/audio_4c5f0a7c38.mp3?filename=sweet-happiness-8543.mp3"
+        type="audio/mpeg"
       />
-      Trình duyệt của bạn không hỗ trợ audio.
+      Your browser does not support the audio element.
     </audio>
 
-    <!-- Chữ "I love you ❤️" -->
     <script>
-      const numTexts = 15;
-      for (let i = 0; i < numTexts; i++) {
-        const love = document.createElement("div");
-        love.classList.add("love");
-        love.textContent = "I love you ❤️";
-        const top = Math.floor(i / 4) * 20 + Math.random() * 10;
-        const left = (i % 4) * 25 + Math.random() * 10;
-        love.style.top = top + "vh";
-        love.style.left = left + "vw";
-        love.style.animationDuration = 10 + Math.random() * 5 + "s";
-        love.style.fontSize = 50 + Math.random() * 20 + "px";
-        document.body.appendChild(love);
-      }
-    </script>
+      const container = document.getElementById("text-container");
+      const phrases = [
+        "I LOVE YOU",
+        "I LOVE YOU",
+        "I LOVE YOU",
+        "I LOVE YOU",
+        "I LOVE YOU",
+      ];
 
-    <!-- Trái tim rơi -->
-    <script>
-      function createFallingHeart() {
+      // Tạo chữ
+      phrases.forEach((text, i) => {
+        const span = document.createElement("span");
+        span.textContent = text;
+        span.className = "text-item";
+
+        // random vị trí ban đầu để tránh chữ chồng nhau quá nhiều
+        span.style.top = Math.random() * (window.innerHeight - 50) + "px";
+        span.style.left = Math.random() * (window.innerWidth - 200) + "px";
+
+        // thêm animation delay khác nhau cho sinh động
+        span.style.animationDelay = i * 2 + "s";
+
+        container.appendChild(span);
+      });
+
+      // Tạo trái tim rơi
+      function createHeart() {
         const heart = document.createElement("div");
-        heart.classList.add("heart");
+        heart.className = "heart";
         heart.textContent = "❤️";
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.fontSize = 10 + Math.random() * 20 + "px";
-        heart.style.animationDuration = 3 + Math.random() * 2 + "s";
-        document.body.appendChild(heart);
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        heart.style.animationDuration = 5 + Math.random() * 5 + "s";
+        heart.style.opacity = Math.random();
+        container.appendChild(heart);
 
         setTimeout(() => {
           heart.remove();
-        }, 5000);
+        }, 10000);
       }
 
-      setInterval(createFallingHeart, 200); // tạo mỗi 0.2 giây
+      // Tạo trái tim rơi mỗi 700ms
+      setInterval(createHeart, 700);
     </script>
   </body>
 </html>
